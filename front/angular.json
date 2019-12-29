@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "front": {
+    "coursework": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/front",
+            "outputPath": "dist/coursework",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -57,18 +58,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "front:build"
+            "browserTarget": "coursework:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "front:build:production"
+              "browserTarget": "coursework:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "front:build"
+            "browserTarget": "coursework:build"
           }
         },
         "lint": {
@@ -85,5 +86,5 @@
       }
     }
   },
-  "defaultProject": "front"
+  "defaultProject": "coursework"
 }
