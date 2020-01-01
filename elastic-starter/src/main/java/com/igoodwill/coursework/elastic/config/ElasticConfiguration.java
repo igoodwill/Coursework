@@ -49,9 +49,14 @@ public class ElasticConfiguration {
     }
 
     private void setupAttachmentPipeline(RestHighLevelClient client) throws IOException {
+        JSONArray properties = new JSONArray();
+        properties.add(CONTENT);
+        properties.add(CONTENT_TYPE);
+
         JSONObject attachment = new JSONObject();
         attachment.put(FIELD, FILE);
         attachment.put(INDEXED_CHARS, attachmentPipelineProperties.getIndexedChars());
+        attachment.put(PROPERTIES, properties);
 
         JSONObject processor = new JSONObject();
         processor.put(ATTACHMENT, attachment);

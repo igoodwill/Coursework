@@ -1,6 +1,6 @@
 export class Coursework {
 
-  id: string;
+  id?: string;
   title: string;
-  file: string;
+  file?: string;
 }

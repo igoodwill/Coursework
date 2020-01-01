@@ -9,11 +9,26 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ApiInterceptor } from './interceptor/api-interceptor';
 import { AuthenticationGuard, MsAdalAngular6Module } from 'microsoft-adal-angular6';
 import { AuthInterceptor } from './interceptor/auth-interceptor.service';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatTableModule
+} from '@angular/material';
+import { FormsModule } from '@angular/forms';
+import { CourseworkDialogComponent } from './dialog/coursework/coursework.dialog';
+import { FileUploadComponent } from './dialog/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    CourseworkDialogComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -29,14 +44,27 @@ import { AuthInterceptor } from './interceptor/auth-interceptor.service';
       navigateToLoginRequestUrl: true,
       cacheLocation: 'localStorage'
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    MatFormFieldModule,
+    MatIconModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     AuthenticationGuard,
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    CourseworkDialogComponent,
+    FileUploadComponent
+  ]
 })
 export class AppModule {
 }

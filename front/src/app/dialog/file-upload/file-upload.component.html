@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  <h3>Choose File</h3>
+  <div class="form-group">
+    <input type="file" (change)="fileProgress($event)"/>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="upload()">Upload</button>
+  <button mat-button (click)="close()">Cancel</button>
+</div>
+
