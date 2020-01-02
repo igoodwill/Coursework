@@ -12,7 +12,7 @@ import { FileUploadComponent } from '../dialog/file-upload/file-upload.component
 })
 export class HomeComponent implements OnInit {
 
-  public displayedColumns: string[] = ['title', 'actions'];
+  public displayedColumns: string[] = ['title', 'filename', 'actions'];
   public dataSource = new MatTableDataSource<Coursework>();
 
   public searchQuery = '';
@@ -65,10 +65,6 @@ export class HomeComponent implements OnInit {
           this.search();
         }
       });
-  }
-
-  public downloadFile(courseworkId: string): void {
-    this.$apiService.downloadFile(courseworkId);
   }
 
   public delete(courseworkId: string): void {

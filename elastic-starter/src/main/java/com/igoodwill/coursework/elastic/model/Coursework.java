@@ -21,6 +21,9 @@ public class Coursework {
     @Field(type = FieldType.Text, store = true)
     private String file;
 
+    @Field(type = FieldType.Text, fielddata = true)
+    private String filename;
+
     private Attachment attachment;
 
     @JsonIgnore

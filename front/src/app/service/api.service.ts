@@ -25,19 +25,6 @@ export class ApiService {
     return this.httpClient.put<void>(`coursework/${courseworkId}/file`, formData);
   }
 
-  public downloadFile(courseworkId: string): void {
-    this.httpClient.get(`coursework/${courseworkId}/file`, {
-      responseType: 'blob',
-      observe: 'response'
-    }).subscribe(data => {
-      const blob = new Blob([data.body], {
-        type: data.headers.get('content-type')
-      });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
-    });
-  }
-
   public search(searchQuery: string, page: number, size: number, sortDirection?: string, sortField?: string): Observable<any> {
     const params: any = {
       searchQuery,

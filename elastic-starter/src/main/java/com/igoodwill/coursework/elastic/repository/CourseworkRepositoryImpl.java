@@ -119,6 +119,11 @@ public class CourseworkRepositoryImpl
                 .map(Coursework::getFile)
                 .ifPresent(existingCoursework::setFile);
 
+        Optional
+                .of(coursework)
+                .map(Coursework::getFilename)
+                .ifPresent(existingCoursework::setFilename);
+
         save(existingCoursework);
     }
 

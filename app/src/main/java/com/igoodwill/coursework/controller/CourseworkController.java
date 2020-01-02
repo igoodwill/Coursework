@@ -11,12 +11,16 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import static org.apache.commons.codec.CharEncoding.UTF_8;
 
 @RestController
 @RequestMapping("coursework")
@@ -31,8 +35,11 @@ public class CourseworkController {
     }
 
     @PutMapping
-    public void updateTitle(@RequestBody CourseworkDto coursework) {
-        repository.update(coursework.toCoursework());
+    public void updateTitle(@RequestBody CourseworkDto dto) {
+        Coursework coursework = new Coursework();
+        coursework.setId(dto.getId());
+        coursework.setTitle(dto.getTitle());
+        repository.update(coursework);
     }
 
     @PutMapping("{id}/file")
@@ -40,17 +47,28 @@ public class CourseworkController {
         Coursework coursework = new Coursework();
         coursework.setId(id);
         coursework.setFile(Base64.encodeBase64String(file.getBytes()));
+        coursework.setFilename(file.getOriginalFilename());
 
         repository.update(coursework);
     }
 
     @GetMapping(value = "{id}/file")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String id) {
+    public ResponseEntity<Resource> downloadFile(@PathVariable String id) throws UnsupportedEncodingException {
         Coursework coursework = repository.getById(id);
         Attachment attachment = coursework.getAttachment();
+        String encodedFilename = URLEncoder
+                .encode(coursework.getFilename(), UTF_8)
+                .replaceAll("\\+", " ");
         return ResponseEntity
                 .ok()
-                .contentType(MediaType.parseMediaType(attachment.getContentType()))
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename*=" + UTF_8 + "''" + encodedFilename
+                )
+                .header(
+                        HttpHeaders.CONTENT_TYPE,
+                        attachment.getContentType() + ";charset=" + UTF_8
+                )
                 .body(new ByteArrayResource(Base64.decodeBase64(coursework.getFile())));
     }
 
