@@ -45,29 +45,31 @@ public class CourseworkRequest implements HasFile {
     }
 
     public void approve(String courseworkId) {
-        assertRequestHasOpenedStatus();
+        assertCanBeChanged();
 
         setStatus(CourseworkRequestStatus.APPROVED);
         setCourseworkId(courseworkId);
     }
 
     public void reject(String comment) {
-        assertRequestHasOpenedStatus();
+        assertCanBeChanged();
 
         setStatus(CourseworkRequestStatus.REJECTED);
         setComment(comment);
     }
 
     public void close(String comment) {
-        assertRequestHasOpenedStatus();
+        assertCanBeChanged();
 
         setStatus(CourseworkRequestStatus.CLOSED);
         setComment(comment);
     }
 
-    private void assertRequestHasOpenedStatus() {
+    public void assertCanBeChanged() {
         if (status != CourseworkRequestStatus.OPENED) {
-            throw new IllegalStateException("Request is already " + status.toString().toLowerCase());
+            throw new IllegalStateException(
+                    String.format("Request is %s and cannot be changed", status.toString().toLowerCase())
+            );
         }
     }
 }

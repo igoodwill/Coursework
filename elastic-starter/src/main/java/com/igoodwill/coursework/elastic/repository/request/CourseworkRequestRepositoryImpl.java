@@ -56,6 +56,8 @@ public class CourseworkRequestRepositoryImpl
     @Override
     public void update(CourseworkRequest request) {
         CourseworkRequest existingRequest = getById(request.getId());
+        existingRequest.assertCanBeChanged();
+
         Optional
                 .of(request)
                 .map(CourseworkRequest::getTitle)
