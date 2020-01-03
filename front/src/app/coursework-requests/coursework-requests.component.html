@@ -39,19 +39,19 @@
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let row" style="justify-content: flex-end">
-      <button mat-icon-button title="Edit" (click)="edit(row)">
+      <button mat-icon-button title="Edit" (click)="edit(row)" *ngIf="row.status == 'OPENED'">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button title="Upload file" (click)="uploadFile(row.id)">
+      <button mat-icon-button title="Upload file" (click)="uploadFile(row.id)" *ngIf="row.status == 'OPENED'">
         <mat-icon>cloud_upload</mat-icon>
       </button>
-      <button mat-icon-button title="Approve" (click)="approve(row.id)">
+      <button mat-icon-button title="Approve" (click)="approve(row.id)" *ngIf="row.status == 'OPENED'">
         <mat-icon>done</mat-icon>
       </button>
-      <button mat-icon-button title="Reject" (click)="reject(row.id)">
+      <button mat-icon-button title="Reject" (click)="reject(row.id)" *ngIf="row.status == 'OPENED'">
         <mat-icon>block</mat-icon>
       </button>
-      <button mat-icon-button title="Close" (click)="close(row.id)">
+      <button mat-icon-button title="Close" (click)="close(row.id)" *ngIf="row.status == 'OPENED'">
         <mat-icon>delete</mat-icon>
       </button>
     </mat-cell>
