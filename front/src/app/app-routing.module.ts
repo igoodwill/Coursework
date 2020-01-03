@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CourseworksComponent } from './courseworks/courseworks.component';
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
 import { CourseworkRequestsComponent } from './coursework-requests/coursework-requests.component';
+import { CourseworkComponent } from './coursework/coursework.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   }, {
     path: 'coursework-requests',
     component: CourseworkRequestsComponent,
+    canActivate: [AuthenticationGuard]
+  }, {
+    path: 'coursework/:id',
+    component: CourseworkComponent,
     canActivate: [AuthenticationGuard]
   }, {
     path: '**',

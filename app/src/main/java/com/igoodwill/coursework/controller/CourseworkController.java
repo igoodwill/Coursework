@@ -66,6 +66,11 @@ public class CourseworkController {
                 .map(CourseworkDto::from);
     }
 
+    @GetMapping("{id}")
+    public CourseworkDto get(@PathVariable String id) {
+        return CourseworkDto.from(repository.getById(id));
+    }
+
     @DeleteMapping
     public void delete(@RequestParam String id) {
         repository.deleteById(id);

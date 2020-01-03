@@ -20,7 +20,9 @@
 >
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Title</mat-header-cell>
-    <mat-cell *matCellDef="let coursework"> {{coursework.title}} </mat-cell>
+    <mat-cell class="cursor-pointer" *matCellDef="let coursework" routerLink="/coursework/{{coursework.id}}">
+      {{coursework.title}}
+    </mat-cell>
   </ng-container>
   <ng-container matColumnDef="filename">
     <mat-header-cell *matHeaderCellDef mat-sort-header="filename"> File</mat-header-cell>

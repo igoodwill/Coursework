@@ -45,6 +45,10 @@ export class CourseworkService {
     });
   }
 
+  public get(id: string): Observable<Coursework> {
+    return this.httpClient.get<Coursework>('coursework/' + id);
+  }
+
   public delete(courseworkId: string): Observable<void> {
     return this.httpClient.delete<void>('coursework', {
       params: {

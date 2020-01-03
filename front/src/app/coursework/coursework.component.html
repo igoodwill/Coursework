@@ -1,0 +1,16 @@
+<mat-card *ngIf="coursework">
+  <mat-card-title>
+    {{coursework.title}}
+  </mat-card-title>
+  <mat-card-content>
+    <a href="api/coursework/{{coursework.id}}/file" download>{{coursework.filename}}</a>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-icon-button matTooltip="Edit" (click)="edit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Upload file" (click)="uploadFile()">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

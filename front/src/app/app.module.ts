@@ -15,11 +15,11 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatListModule,
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
-  MatToolbarModule
+  MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { CourseworkDialogComponent } from './dialog/coursework/coursework.dialog';
@@ -28,6 +28,7 @@ import { CourseworkRequestsComponent } from './coursework-requests/coursework-re
 import { CourseworkRequestDialogComponent } from './dialog/coursework-request/coursework-request.dialog';
 import { RejectCourseworkRequestDialogComponent } from './dialog/reject-coursework-request/reject-coursework-request.dialog';
 import { CloseCourseworkRequestDialogComponent } from './dialog/close-coursework-request/close-coursework-request.dialog';
+import { CourseworkComponent } from './coursework/coursework.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CloseCourseworkRequestDialogComponent } from './dialog/close-coursework
     CourseworkRequestDialogComponent,
     RejectCourseworkRequestDialogComponent,
     CloseCourseworkRequestDialogComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    CourseworkComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ import { CloseCourseworkRequestDialogComponent } from './dialog/close-coursework
     MatTableModule,
     MatSortModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
   ],
   providers: [
     AuthenticationGuard,
