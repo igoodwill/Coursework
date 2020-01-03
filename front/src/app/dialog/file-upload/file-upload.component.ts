@@ -1,6 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ApiService } from '../../service/api.service';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-file-upload',
@@ -12,9 +11,7 @@ export class FileUploadComponent {
   public fileData: File = null;
 
   constructor(
-    public dialogRef: MatDialogRef<FileUploadComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { courseworkId: string },
-    private $apiService: ApiService
+    public dialogRef: MatDialogRef<FileUploadComponent>
   ) {
   }
 
@@ -23,10 +20,10 @@ export class FileUploadComponent {
   }
 
   public upload(): void {
-    this.$apiService.uploadFile(this.data.courseworkId, this.fileData).subscribe(() => this.close(true));
+    this.close(this.fileData);
   }
 
-  public close(success?: boolean): void {
-    this.dialogRef.close(success);
+  public close(file?: File): void {
+    this.dialogRef.close(file);
   }
 }

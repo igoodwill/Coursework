@@ -6,7 +6,7 @@ import { Coursework } from '../model/coursework';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class CourseworkService {
 
   constructor(private httpClient: HttpClient) {
   }

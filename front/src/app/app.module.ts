@@ -3,31 +3,41 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing/app-routing.module';
-import { HomeComponent } from './home/home.component';
+import { AppRoutingModule } from './app-routing.module';
+import { CourseworksComponent } from './courseworks/courseworks.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ApiInterceptor } from './interceptor/api-interceptor';
 import { AuthenticationGuard, MsAdalAngular6Module } from 'microsoft-adal-angular6';
 import { AuthInterceptor } from './interceptor/auth-interceptor.service';
 import {
   MatButtonModule,
+  MatCardModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatPaginatorModule,
   MatSortModule,
-  MatTableModule
+  MatTableModule,
+  MatToolbarModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { CourseworkDialogComponent } from './dialog/coursework/coursework.dialog';
 import { FileUploadComponent } from './dialog/file-upload/file-upload.component';
+import { CourseworkRequestsComponent } from './coursework-requests/coursework-requests.component';
+import { CourseworkRequestDialogComponent } from './dialog/coursework-request/coursework-request.dialog';
+import { RejectCourseworkRequestDialogComponent } from './dialog/reject-coursework-request/reject-coursework-request.dialog';
+import { CloseCourseworkRequestDialogComponent } from './dialog/close-coursework-request/close-coursework-request.dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    CourseworksComponent,
+    CourseworkRequestsComponent,
     CourseworkDialogComponent,
+    CourseworkRequestDialogComponent,
+    RejectCourseworkRequestDialogComponent,
+    CloseCourseworkRequestDialogComponent,
     FileUploadComponent
   ],
   imports: [
@@ -53,7 +63,9 @@ import { FileUploadComponent } from './dialog/file-upload/file-upload.component'
     MatDialogModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatToolbarModule,
+    MatCardModule
   ],
   providers: [
     AuthenticationGuard,
@@ -63,6 +75,9 @@ import { FileUploadComponent } from './dialog/file-upload/file-upload.component'
   bootstrap: [AppComponent],
   entryComponents: [
     CourseworkDialogComponent,
+    CourseworkRequestDialogComponent,
+    RejectCourseworkRequestDialogComponent,
+    CloseCourseworkRequestDialogComponent,
     FileUploadComponent
   ]
 })

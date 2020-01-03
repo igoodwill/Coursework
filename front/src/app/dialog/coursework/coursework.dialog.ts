@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Coursework } from '../../model/coursework';
-import { ApiService } from '../../service/api.service';
+import { CourseworkService } from '../../service/coursework.service';
 
 @Component({
   selector: 'app-coursework-dialog',
@@ -13,12 +13,12 @@ export class CourseworkDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CourseworkDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Coursework,
-    private $apiService: ApiService
+    private $courseworkService: CourseworkService
   ) {
   }
 
   public save(): void {
-    this.$apiService.save(this.data).subscribe(() => this.close(true));
+    this.$courseworkService.save(this.data).subscribe(() => this.close(true));
   }
 
   public close(success?: boolean): void {

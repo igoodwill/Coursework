@@ -15,7 +15,10 @@ public interface Constants {
     // Fields
     String TITLE = "title";
     String FILE = "file";
+    String FILENAME = "filename";
     String ATTACHMENT_CONTENT = "attachment.content";
     String CONTENT = "content";
     String CONTENT_TYPE = "content_type";
+    String STATUS = "status";
+    String COMMENT = "comment";
 }

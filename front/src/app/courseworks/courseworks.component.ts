@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../service/api.service';
+import { CourseworkService } from '../service/coursework.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { CourseworkDialogComponent } from '../dialog/coursework/coursework.dialog';
 import { Coursework } from '../model/coursework';
 import { FileUploadComponent } from '../dialog/file-upload/file-upload.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-courseworks',
+  templateUrl: './courseworks.component.html',
+  styleUrls: ['./courseworks.component.css']
 })
-export class HomeComponent implements OnInit {
+export class CourseworksComponent implements OnInit {
 
   public displayedColumns: string[] = ['title', 'filename', 'actions'];
   public dataSource = new MatTableDataSource<Coursework>();
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   public sortField: string;
 
   constructor(
-    private $apiService: ApiService,
+    private $courseworkService: CourseworkService,
     private dialog: MatDialog
   ) {
   }
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
 
   public edit(coursework: Coursework): void {
     this.dialog.open(CourseworkDialogComponent, {
-      data: coursework
+      data: { ...coursework }
     }).afterClosed()
       .subscribe(result => {
         if (result) {
@@ -55,26 +55,23 @@ export class HomeComponent implements OnInit {
   }
 
   public uploadFile(courseworkId: string): void {
-    this.dialog.open(FileUploadComponent, {
-      data: {
-        courseworkId
+    this.dialog.open(FileUploadComponent).afterClosed().subscribe(file => {
+      if (file) {
+        this.$courseworkService.uploadFile(courseworkId, file).subscribe(this.search.bind(this));
       }
-    }).afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.search();
-        }
-      });
+    });
   }
 
   public delete(courseworkId: string): void {
-    this.$apiService.delete(courseworkId).subscribe(this.search.bind(this));
+    this.$courseworkService.delete(courseworkId).subscribe(this.search.bind(this));
   }
 
   public search(): void {
-    this.$apiService.search(this.searchQuery, this.pageIndex, this.pageSize, this.sortDirection, this.sortField).subscribe(result => {
-      this.dataSource.data = result.content;
-      this.pageTotal = result.totalElements;
-    });
+    this.$courseworkService
+      .search(this.searchQuery, this.pageIndex, this.pageSize, this.sortDirection, this.sortField)
+      .subscribe(result => {
+        this.dataSource.data = result.content;
+        this.pageTotal = result.totalElements;
+      });
   }
 }

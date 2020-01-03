@@ -1,0 +1,69 @@
+<mat-card>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Search" [(ngModel)]="searchQuery">
+    <button mat-button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear"
+            (click)="searchQuery=''; search()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-icon-button title="Search" (click)="search()">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-icon-button title="Create" (click)="create()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-card>
+<mat-table
+  [dataSource]="dataSource"
+  matSort
+  (matSortChange)="sortDirection = $event.direction; sortField = $event.active; search()"
+>
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Title</mat-header-cell>
+    <mat-cell *matCellDef="let request"> {{request.title}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="filename">
+    <mat-header-cell *matHeaderCellDef mat-sort-header="filename"> File</mat-header-cell>
+    <mat-cell *matCellDef="let request">
+      <a href="api/courseworkRequest/{{request.id}}/file" download>{{request.filename}}</a>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header="status"> Status</mat-header-cell>
+    <mat-cell *matCellDef="let request"> {{request.status}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="comment">
+    <mat-header-cell *matHeaderCellDef mat-sort-header="comment"> Comment</mat-header-cell>
+    <mat-cell *matCellDef="let request"> {{request.comment}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let row" style="justify-content: flex-end">
+      <button mat-icon-button title="Edit" (click)="edit(row)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button title="Upload file" (click)="uploadFile(row.id)">
+        <mat-icon>cloud_upload</mat-icon>
+      </button>
+      <button mat-icon-button title="Approve" (click)="approve(row.id)">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button mat-icon-button title="Reject" (click)="reject(row.id)">
+        <mat-icon>block</mat-icon>
+      </button>
+      <button mat-icon-button title="Close" (click)="close(row.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  [pageSize]="pageSize"
+  [length]="pageTotal"
+  (page)="pageIndex = $event.pageIndex; pageSize = $event.pageSize; search()"
+  showFirstLastButtons
+></mat-paginator>

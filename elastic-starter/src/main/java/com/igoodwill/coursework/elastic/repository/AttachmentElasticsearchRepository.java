@@ -1,16 +1,12 @@
 package com.igoodwill.coursework.elastic.repository;
 
 import com.igoodwill.coursework.elastic.config.ElasticAttachmentPipelineProperties;
-import com.igoodwill.coursework.elastic.model.Coursework;
+import com.igoodwill.coursework.elastic.model.HasFile;
 import lombok.NonNull;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchEntityMapper;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.EntityMapper;
@@ -20,32 +16,28 @@ import org.springframework.data.elasticsearch.repository.support.MappingElastics
 import org.springframework.data.elasticsearch.repository.support.SimpleElasticsearchRepository;
 
 import java.io.IOException;
-import java.util.Optional;
-import java.util.UUID;
 
-import static com.igoodwill.coursework.elastic.util.Constants.ATTACHMENT_CONTENT;
-import static com.igoodwill.coursework.elastic.util.Constants.TITLE;
-
-public class CourseworkRepositoryImpl
-        extends SimpleElasticsearchRepository<Coursework, String>
-        implements CustomCourseworkRepository {
+public abstract class AttachmentElasticsearchRepository<T extends HasFile>
+        extends SimpleElasticsearchRepository<T, String>
+        implements CustomRepository<T> {
 
     private final ElasticAttachmentPipelineProperties properties;
     private final RestHighLevelClient client;
     private final EntityMapper entityMapper;
 
     @SuppressWarnings("unchecked")
-    public CourseworkRepositoryImpl(
+    public AttachmentElasticsearchRepository(
             ElasticAttachmentPipelineProperties properties,
             ElasticsearchOperations elasticsearchOperations,
-            RestHighLevelClient client
+            RestHighLevelClient client,
+            Class<T> clazz
     ) {
         super(
                 new MappingElasticsearchEntityInformation<>(
-                        (ElasticsearchPersistentEntity<Coursework>) elasticsearchOperations
+                        (ElasticsearchPersistentEntity<T>) elasticsearchOperations
                                 .getElasticsearchConverter()
                                 .getMappingContext()
-                                .getRequiredPersistentEntity(Coursework.class)
+                                .getRequiredPersistentEntity(clazz)
                 ),
                 elasticsearchOperations
         );
@@ -60,7 +52,7 @@ public class CourseworkRepositoryImpl
     }
 
     @Override
-    public <S extends Coursework> S save(@NonNull S entity) {
+    public <S extends T> S save(@NonNull S entity) {
         String indexName = entityInformation.getIndexName();
         String documentId;
         try {
@@ -89,46 +81,7 @@ public class CourseworkRepositoryImpl
         return entity;
     }
 
-    @Override
-    public Page<Coursework> searchByTitleAndAttachmentContent(String searchQuery, Pageable pageable) {
-        return search(
-                QueryBuilders
-                        .queryStringQuery("*" + QueryParser.escape(searchQuery) + "*")
-                        .field(TITLE)
-                        .field(ATTACHMENT_CONTENT),
-                pageable
-        );
-    }
-
-    @Override
-    public Coursework create(Coursework coursework) {
-        coursework.setId(UUID.randomUUID().toString());
-        return save(coursework);
-    }
-
-    @Override
-    public void update(Coursework coursework) {
-        Coursework existingCoursework = getById(coursework.getId());
-        Optional
-                .of(coursework)
-                .map(Coursework::getTitle)
-                .ifPresent(existingCoursework::setTitle);
-
-        Optional
-                .of(coursework)
-                .map(Coursework::getFile)
-                .ifPresent(existingCoursework::setFile);
-
-        Optional
-                .of(coursework)
-                .map(Coursework::getFilename)
-                .ifPresent(existingCoursework::setFilename);
-
-        save(existingCoursework);
-    }
-
-    @Override
-    public Coursework getById(String id) {
+    public T getById(String id) {
         return findById(id).orElseThrow(IllegalArgumentException::new);
     }
 }

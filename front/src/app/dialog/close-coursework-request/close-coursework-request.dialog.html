@@ -1,0 +1,9 @@
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Comment" [(ngModel)]="data.comment">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeRequest()">Close request</button>
+  <button mat-button (click)="close()">Cancel</button>
+</div>

@@ -1,16 +1,18 @@
-<mat-form-field class="example-form-field">
-  <input matInput type="text" placeholder="Search" [(ngModel)]="searchQuery">
-  <button mat-button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear"
-          (click)="searchQuery=''; search()">
-    <mat-icon>close</mat-icon>
+<mat-card>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Search" [(ngModel)]="searchQuery">
+    <button mat-button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear"
+            (click)="searchQuery=''; search()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-icon-button title="Search" (click)="search()">
+    <mat-icon>search</mat-icon>
   </button>
-</mat-form-field>
-<button mat-icon-button title="Search" (click)="search()">
-  <mat-icon>search</mat-icon>
-</button>
-<button mat-icon-button title="Create" (click)="create()">
-  <mat-icon>add</mat-icon>
-</button>
+  <button mat-icon-button title="Create" (click)="create()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-card>
 <mat-table
   [dataSource]="dataSource"
   matSort

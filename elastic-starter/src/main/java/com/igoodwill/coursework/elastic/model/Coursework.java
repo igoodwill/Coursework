@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
 @Document(indexName = "work")
-public class Coursework {
+public class Coursework implements HasFile {
 
     @Id
     private String id;

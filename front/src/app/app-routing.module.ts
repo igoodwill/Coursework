@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from '../home/home.component';
+import { CourseworksComponent } from './courseworks/courseworks.component';
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
+import { CourseworkRequestsComponent } from './coursework-requests/coursework-requests.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeComponent,
+    path: 'courseworks',
+    component: CourseworksComponent,
+    canActivate: [AuthenticationGuard]
+  }, {
+    path: 'coursework-requests',
+    component: CourseworkRequestsComponent,
     canActivate: [AuthenticationGuard]
   }, {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'courseworks'
   }
 ];
 
