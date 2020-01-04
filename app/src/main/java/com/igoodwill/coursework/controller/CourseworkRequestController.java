@@ -55,9 +55,9 @@ public class CourseworkRequestController {
     }
 
     @PutMapping("{id}/approve")
-    public void approve(@PathVariable String id) {
+    public CourseworkRequestDto approve(@PathVariable String id) {
         UUID currentUserId = userService.getCurrentUserId();
-        repository.approve(id, currentUserId);
+        return CourseworkRequestDto.from(repository.approve(id, currentUserId), userService);
     }
 
     @PutMapping("{id}/reject")

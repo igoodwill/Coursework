@@ -6,6 +6,7 @@ import { CourseworkRequestService } from '../service/coursework-request.service'
 import { CourseworkRequestDialogComponent } from '../dialog/coursework-request/coursework-request.dialog';
 import { RejectCourseworkRequestDialogComponent } from '../dialog/reject-coursework-request/reject-coursework-request.dialog';
 import { CloseCourseworkRequestDialogComponent } from '../dialog/close-coursework-request/close-coursework-request.dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-coursework-requests',
@@ -26,7 +27,8 @@ export class CourseworkRequestsComponent implements OnInit {
 
   constructor(
     private $courseworkRequestService: CourseworkRequestService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
   }
 
@@ -65,7 +67,9 @@ export class CourseworkRequestsComponent implements OnInit {
   }
 
   public approve(requestId: string): void {
-    this.$courseworkRequestService.approve(requestId).subscribe(this.search.bind(this));
+    this.$courseworkRequestService.approve(requestId).subscribe(({ courseworkId }) => {
+      this.router.navigate(['/coursework', courseworkId]);
+    });
   }
 
   public reject(requestId: string): void {

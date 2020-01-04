@@ -92,7 +92,7 @@ public class CourseworkRequestRepositoryImpl
     }
 
     @Override
-    public void approve(String requestId, UUID approverId) {
+    public CourseworkRequest approve(String requestId, UUID approverId) {
         CourseworkRequest request = getById(requestId);
 
         Coursework coursework = new Coursework();
@@ -104,7 +104,9 @@ public class CourseworkRequestRepositoryImpl
         coursework = courseworkRepository.create(coursework);
 
         request.approve(coursework.getId(), approverId);
-        save(request);
+        request = save(request);
+
+        return request;
     }
 
     @Override

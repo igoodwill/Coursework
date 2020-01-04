@@ -25,8 +25,8 @@ export class CourseworkRequestService {
     return this.httpClient.put<void>(`courseworkRequest/${requestId}/file`, formData);
   }
 
-  public approve(id: string): Observable<void> {
-    return this.httpClient.put<void>(`courseworkRequest/${id}/approve`, {});
+  public approve(id: string): Observable<CourseworkRequest> {
+    return this.httpClient.put<CourseworkRequest>(`courseworkRequest/${id}/approve`, {});
   }
 
   public reject(id: string, comment: string): Observable<void> {

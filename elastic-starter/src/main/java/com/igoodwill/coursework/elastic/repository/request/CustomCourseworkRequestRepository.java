@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface CustomCourseworkRequestRepository extends CustomRepository<CourseworkRequest> {
 
-    void approve(String requestId, UUID approverId);
+    CourseworkRequest approve(String requestId, UUID approverId);
 
     void reject(String requestId, String comment);
 
