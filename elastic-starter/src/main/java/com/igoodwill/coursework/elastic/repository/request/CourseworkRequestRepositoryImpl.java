@@ -99,6 +99,7 @@ public class CourseworkRequestRepositoryImpl
         coursework.setTitle(request.getTitle());
         coursework.setFile(request.getFile());
         coursework.setFilename(request.getFilename());
+        coursework.setCreatorId(request.getCreatorId());
 
         coursework = courseworkRepository.create(coursework);
 
