@@ -14,7 +14,7 @@ import { CloseCourseworkRequestDialogComponent } from '../dialog/close-coursewor
 })
 export class CourseworkRequestsComponent implements OnInit {
 
-  public displayedColumns: string[] = ['title', 'filename', 'status', 'comment', 'actions'];
+  public displayedColumns: string[] = ['title', 'filename', 'creator', 'status', 'comment', 'actions'];
   public dataSource = new MatTableDataSource<CourseworkRequest>();
 
   public searchQuery = '';

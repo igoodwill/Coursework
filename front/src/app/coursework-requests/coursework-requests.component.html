@@ -28,6 +28,12 @@
       <a href="api/courseworkRequest/{{request.id}}/file" download>{{request.filename}}</a>
     </mat-cell>
   </ng-container>
+  <ng-container matColumnDef="creator">
+    <mat-header-cell *matHeaderCellDef> Requested by</mat-header-cell>
+    <mat-cell class="cursor-pointer" *matCellDef="let request">
+      {{request.creatorName}}
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="status">
     <mat-header-cell *matHeaderCellDef mat-sort-header="status"> Status</mat-header-cell>
     <mat-cell *matCellDef="let request"> {{request.status}} </mat-cell>

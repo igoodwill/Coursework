@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.UUID;
+
 @Data
 @Document(indexName = "request")
 public class CourseworkRequest implements HasFile {
@@ -25,6 +27,8 @@ public class CourseworkRequest implements HasFile {
     private String filename;
 
     private Attachment attachment;
+
+    private UUID creatorId;
 
     @Field(type = FieldType.Text, fielddata = true)
     private CourseworkRequestStatus status = CourseworkRequestStatus.OPENED;

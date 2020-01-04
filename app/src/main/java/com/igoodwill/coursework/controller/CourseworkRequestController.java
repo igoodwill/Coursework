@@ -3,6 +3,7 @@ package com.igoodwill.coursework.controller;
 import com.igoodwill.coursework.elastic.model.CourseworkRequest;
 import com.igoodwill.coursework.elastic.repository.request.CourseworkRequestRepository;
 import com.igoodwill.coursework.model.CourseworkRequestDto;
+import com.igoodwill.coursework.security.service.UserService;
 import com.igoodwill.coursework.util.FileService;
 import com.igoodwill.coursework.util.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("courseworkRequest")
@@ -23,10 +25,15 @@ public class CourseworkRequestController {
     private final CourseworkRequestRepository repository;
     private final FileService fileService;
     private final PaginationService paginationService;
+    private final UserService userService;
 
     @PostMapping
-    public CourseworkRequestDto create(@RequestBody CourseworkRequestDto request) {
-        return CourseworkRequestDto.from(repository.create(request.toRequest()));
+    public CourseworkRequestDto create(@RequestBody CourseworkRequestDto dto) {
+        UUID oid = userService.getCurrentUserId();
+
+        CourseworkRequest request = dto.toRequest();
+        request.setCreatorId(oid);
+        return CourseworkRequestDto.from(repository.create(request), userService);
     }
 
     @PutMapping
@@ -78,6 +85,6 @@ public class CourseworkRequestController {
     ) {
         return repository
                 .search(searchQuery, paginationService.getPageable(page, size, sortDirection, sortField))
-                .map(CourseworkRequestDto::from);
+                .map((CourseworkRequest request) -> CourseworkRequestDto.from(request, userService));
     }
 }
