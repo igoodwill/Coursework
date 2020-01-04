@@ -3,6 +3,7 @@ package com.igoodwill.coursework.controller;
 import com.igoodwill.coursework.elastic.model.Coursework;
 import com.igoodwill.coursework.elastic.repository.coursework.CourseworkRepository;
 import com.igoodwill.coursework.model.CourseworkDto;
+import com.igoodwill.coursework.security.service.UserService;
 import com.igoodwill.coursework.util.FileService;
 import com.igoodwill.coursework.util.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("coursework")
@@ -23,10 +26,15 @@ public class CourseworkController {
     private final CourseworkRepository repository;
     private final FileService fileService;
     private final PaginationService paginationService;
+    private final UserService userService;
 
     @PostMapping
-    public CourseworkDto create(@RequestBody CourseworkDto coursework) {
-        return CourseworkDto.from(repository.create(coursework.toCoursework()));
+    public CourseworkDto create(@RequestBody CourseworkDto dto, HttpServletRequest request) {
+        UUID oid = userService.getCurrentUserId();
+
+        Coursework coursework = dto.toCoursework();
+        coursework.setCreatorId(oid);
+        return CourseworkDto.from(repository.create(coursework), userService);
     }
 
     @PutMapping
@@ -63,12 +71,12 @@ public class CourseworkController {
     ) {
         return repository
                 .search(searchQuery, paginationService.getPageable(page, size, sortDirection, sortField))
-                .map(CourseworkDto::from);
+                .map(coursework -> CourseworkDto.from(coursework, userService));
     }
 
     @GetMapping("{id}")
     public CourseworkDto get(@PathVariable String id) {
-        return CourseworkDto.from(repository.getById(id));
+        return CourseworkDto.from(repository.getById(id), userService);
     }
 
     @DeleteMapping

@@ -30,6 +30,12 @@
       <a href="api/coursework/{{coursework.id}}/file" download>{{coursework.filename}}</a>
     </mat-cell>
   </ng-container>
+  <ng-container matColumnDef="username">
+    <mat-header-cell *matHeaderCellDef> User</mat-header-cell>
+    <mat-cell class="cursor-pointer" *matCellDef="let coursework" routerLink="/coursework/">
+      {{coursework.creatorName}}
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let row" style="justify-content: flex-end">

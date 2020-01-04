@@ -12,7 +12,7 @@ import { FileUploadComponent } from '../dialog/file-upload/file-upload.component
 })
 export class CourseworksComponent implements OnInit {
 
-  public displayedColumns: string[] = ['title', 'filename', 'actions'];
+  public displayedColumns: string[] = ['title', 'filename', 'username', 'actions'];
   public dataSource = new MatTableDataSource<Coursework>();
 
   public searchQuery = '';

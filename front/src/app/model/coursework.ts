@@ -4,4 +4,6 @@ export class Coursework {
   title: string;
   file?: string;
   filename?: string;
+  creatorId: string;
+  creatorName: string;
 }
