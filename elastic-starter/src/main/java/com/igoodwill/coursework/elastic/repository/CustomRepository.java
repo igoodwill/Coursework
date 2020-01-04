@@ -7,9 +7,9 @@ public interface CustomRepository<T> {
 
     Page<T> search(String searchQuery, Pageable pageable);
 
-    T create(T coursework);
+    T create(T entity);
 
-    void update(T coursework);
+    void update(T entity);
 
     T getById(String id);
 }

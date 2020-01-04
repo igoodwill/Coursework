@@ -38,6 +38,10 @@ public class CourseworkController {
         return CourseworkDto.from(repository.create(coursework), userService);
     }
 
+    @PreAuthorize(
+            "@userService.isCurrentUserAdmin()" +
+                    "|| @courseworkRepository.isCreatedBy(#dto.getId(), @userService.getCurrentUserId())"
+    )
     @PutMapping
     public void updateTitle(@RequestBody CourseworkDto dto) {
         Coursework coursework = new Coursework();
@@ -46,6 +50,10 @@ public class CourseworkController {
         repository.update(coursework);
     }
 
+    @PreAuthorize(
+            "@userService.isCurrentUserAdmin()" +
+                    "|| @courseworkRepository.isCreatedBy(#id, @userService.getCurrentUserId())"
+    )
     @PutMapping("{id}/file")
     public void uploadFile(@PathVariable String id, @RequestParam MultipartFile file) throws IOException {
         Coursework coursework = new Coursework();
@@ -56,6 +64,10 @@ public class CourseworkController {
         repository.update(coursework);
     }
 
+    @PreAuthorize(
+            "@userService.isCurrentUserAdmin()" +
+                    "|| @courseworkRepository.isCreatedBy(#id, @userService.getCurrentUserId())"
+    )
     @GetMapping(value = "{id}/file")
     public ResponseEntity<Resource> downloadFile(@PathVariable String id) throws UnsupportedEncodingException {
         Coursework coursework = repository.getById(id);
@@ -70,16 +82,36 @@ public class CourseworkController {
             @RequestParam(required = false) String sortDirection,
             @RequestParam(required = false) String sortField
     ) {
-        return repository
-                .search(searchQuery, paginationService.getPageable(page, size, sortDirection, sortField))
-                .map(coursework -> CourseworkDto.from(coursework, userService));
+        Page<Coursework> searchResult;
+        if (userService.isCurrentUserAdmin()) {
+            searchResult = repository.search(
+                    searchQuery,
+                    paginationService.getPageable(page, size, sortDirection, sortField)
+            );
+        } else {
+            searchResult = repository.search(
+                    searchQuery,
+                    paginationService.getPageable(page, size, sortDirection, sortField),
+                    userService.getCurrentUserId()
+            );
+        }
+
+        return searchResult.map(coursework -> CourseworkDto.from(coursework, userService));
     }
 
+    @PreAuthorize(
+            "@userService.isCurrentUserAdmin()" +
+                    "|| @courseworkRepository.isCreatedBy(#id, @userService.getCurrentUserId())"
+    )
     @GetMapping("{id}")
     public CourseworkDto get(@PathVariable String id) {
         return CourseworkDto.from(repository.getById(id), userService);
     }
 
+    @PreAuthorize(
+            "@userService.isCurrentUserAdmin()" +
+                    "|| @courseworkRepository.isCreatedBy(#id, @userService.getCurrentUserId())"
+    )
     @DeleteMapping
     public void delete(@RequestParam String id) {
         repository.deleteById(id);

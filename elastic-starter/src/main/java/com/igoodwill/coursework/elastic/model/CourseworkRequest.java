@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Document(indexName = "request")
-public class CourseworkRequest implements HasFile {
+public class CourseworkRequest implements HasFile, HasCreator {
 
     @Id
     private String id;
@@ -46,6 +46,7 @@ public class CourseworkRequest implements HasFile {
     }
 
     @JsonGetter
+    @Override
     public Attachment getAttachment() {
         return attachment;
     }

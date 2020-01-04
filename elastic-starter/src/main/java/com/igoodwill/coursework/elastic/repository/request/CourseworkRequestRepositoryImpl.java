@@ -7,6 +7,7 @@ import com.igoodwill.coursework.elastic.repository.AttachmentElasticsearchReposi
 import com.igoodwill.coursework.elastic.repository.coursework.CourseworkRepository;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,16 +36,28 @@ public class CourseworkRequestRepositoryImpl
 
     @Override
     public Page<CourseworkRequest> search(String searchQuery, Pageable pageable) {
-        return search(
-                QueryBuilders
-                        .queryStringQuery("*" + QueryParser.escape(searchQuery) + "*")
-                        .field(TITLE)
-                        .field(FILENAME)
-                        .field(ATTACHMENT_CONTENT)
-                        .field(STATUS)
-                        .field(COMMENT),
-                pageable
-        );
+        return search(searchQuery, pageable, null);
+    }
+
+    @Override
+    public Page<CourseworkRequest> search(String searchQuery, Pageable pageable, UUID userId) {
+        BoolQueryBuilder query = QueryBuilders
+                .boolQuery()
+                .must(
+                        QueryBuilders
+                                .queryStringQuery("*" + QueryParser.escape(searchQuery) + "*")
+                                .field(TITLE)
+                                .field(FILENAME)
+                                .field(ATTACHMENT_CONTENT)
+                                .field(STATUS)
+                                .field(COMMENT)
+                );
+
+        if (userId != null) {
+            query.must(QueryBuilders.matchQuery(CREATOR_ID, userId.toString()));
+        }
+
+        return search(query, pageable);
     }
 
     @Override
