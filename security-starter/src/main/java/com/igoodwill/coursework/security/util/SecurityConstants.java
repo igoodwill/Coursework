@@ -7,4 +7,5 @@ public interface SecurityConstants {
     String CURRENT_USER_PRINCIPAL_GRAPHAPI_TOKEN = "CURRENT_USER_PRINCIPAL_GRAPHAPI_TOKEN";
     String DISPLAY_NAME = "displayName";
     String USER_ID_CLAIM = "oid";
+    String ROLE_PREFIX = "ROLE_";
 }

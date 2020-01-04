@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -28,8 +28,9 @@ public class CourseworkController {
     private final PaginationService paginationService;
     private final UserService userService;
 
+    @PreAuthorize("@userService.isCurrentUserAdmin()")
     @PostMapping
-    public CourseworkDto create(@RequestBody CourseworkDto dto, HttpServletRequest request) {
+    public CourseworkDto create(@RequestBody CourseworkDto dto) {
         UUID currentUserId = userService.getCurrentUserId();
 
         Coursework coursework = dto.toCoursework();

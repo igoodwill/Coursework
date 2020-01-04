@@ -3,12 +3,14 @@ package com.igoodwill.coursework.security.config;
 import com.igoodwill.coursework.security.service.TokenService;
 import com.microsoft.azure.spring.autoconfigure.aad.AADAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.support.HttpRequestWrapper;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -24,6 +26,8 @@ import static com.igoodwill.coursework.security.util.SecurityConstants.API_VERSI
 import static com.igoodwill.coursework.security.util.SecurityConstants.DEFAULT_API_VERSION_VALUE;
 
 @Configuration
+@EnableConfigurationProperties(SecurityProperties.class)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
