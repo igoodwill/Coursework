@@ -30,7 +30,7 @@
   </ng-container>
   <ng-container matColumnDef="creator">
     <mat-header-cell *matHeaderCellDef> Requested by</mat-header-cell>
-    <mat-cell class="cursor-pointer" *matCellDef="let request">
+    <mat-cell *matCellDef="let request">
       {{request.creatorName}}
     </mat-cell>
   </ng-container>

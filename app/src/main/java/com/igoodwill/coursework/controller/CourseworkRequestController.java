@@ -29,10 +29,10 @@ public class CourseworkRequestController {
 
     @PostMapping
     public CourseworkRequestDto create(@RequestBody CourseworkRequestDto dto) {
-        UUID oid = userService.getCurrentUserId();
+        UUID currentUserId = userService.getCurrentUserId();
 
         CourseworkRequest request = dto.toRequest();
-        request.setCreatorId(oid);
+        request.setCreatorId(currentUserId);
         return CourseworkRequestDto.from(repository.create(request), userService);
     }
 
@@ -56,7 +56,8 @@ public class CourseworkRequestController {
 
     @PutMapping("{id}/approve")
     public void approve(@PathVariable String id) {
-        repository.approve(id);
+        UUID currentUserId = userService.getCurrentUserId();
+        repository.approve(id, currentUserId);
     }
 
     @PutMapping("{id}/reject")

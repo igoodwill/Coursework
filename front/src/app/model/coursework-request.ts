@@ -9,4 +9,6 @@ export class CourseworkRequest {
   status: string;
   comment?: string;
   courseworkId?: string;
+  approverId: string;
+  approverName: string;
 }

@@ -26,6 +26,10 @@ public class CourseworkRequestDto {
 
     private String courseworkId;
 
+    private UUID approverId;
+
+    private String approverName;
+
     public static CourseworkRequestDto from(CourseworkRequest request, UserService userService) {
         CourseworkRequestDto dto = new CourseworkRequestDto();
         dto.setId(request.getId());
@@ -38,6 +42,10 @@ public class CourseworkRequestDto {
         dto.setStatus(request.getStatus());
         dto.setComment(request.getComment());
         dto.setCourseworkId(request.getCourseworkId());
+
+        UUID approverId = request.getApproverId();
+        dto.setApproverId(approverId);
+        dto.setApproverName(userService.getDisplayUserName(approverId));
         return dto;
     }
 

@@ -30,10 +30,10 @@ public class CourseworkController {
 
     @PostMapping
     public CourseworkDto create(@RequestBody CourseworkDto dto, HttpServletRequest request) {
-        UUID oid = userService.getCurrentUserId();
+        UUID currentUserId = userService.getCurrentUserId();
 
         Coursework coursework = dto.toCoursework();
-        coursework.setCreatorId(oid);
+        coursework.setCreatorId(currentUserId);
         return CourseworkDto.from(repository.create(coursework), userService);
     }
 

@@ -27,8 +27,8 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 
-        String oid = (String) principal.getClaim(USER_ID_CLAIM);
-        UUID result = UUID.fromString(oid);
+        String userId = (String) principal.getClaim(USER_ID_CLAIM);
+        UUID result = UUID.fromString(userId);
         return result;
     }
 

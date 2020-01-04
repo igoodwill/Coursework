@@ -38,6 +38,8 @@ public class CourseworkRequest implements HasFile {
 
     private String courseworkId;
 
+    private UUID approverId;
+
     @JsonIgnore
     public void setAttachment(Attachment attachment) {
         this.attachment = attachment;
@@ -48,11 +50,12 @@ public class CourseworkRequest implements HasFile {
         return attachment;
     }
 
-    public void approve(String courseworkId) {
+    public void approve(String courseworkId, UUID approverId) {
         assertCanBeChanged();
 
         setStatus(CourseworkRequestStatus.APPROVED);
         setCourseworkId(courseworkId);
+        setApproverId(approverId);
     }
 
     public void reject(String comment) {
