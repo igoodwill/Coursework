@@ -27,7 +27,7 @@ public class CourseworkDto {
 
         UUID creatorId = coursework.getCreatorId();
         dto.setCreatorId(creatorId);
-        dto.setCreatorName(userService.getFullUserName(creatorId));
+        dto.setCreatorName(userService.getDisplayUserName(creatorId));
         return dto;
     }
 
