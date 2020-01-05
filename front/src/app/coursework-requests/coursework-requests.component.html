@@ -51,10 +51,20 @@
       <button mat-icon-button matTooltip="Upload file" (click)="uploadFile(row.id)" *ngIf="row.status == 'OPENED'">
         <mat-icon>cloud_upload</mat-icon>
       </button>
-      <button mat-icon-button matTooltip="Approve" (click)="approve(row.id)" *ngIf="row.status == 'OPENED'">
+      <button
+        mat-icon-button
+        matTooltip="Approve"
+        (click)="approve(row.id)"
+        *ngIf="row.status == 'OPENED' && isCurrentUserAdmin()"
+      >
         <mat-icon>done</mat-icon>
       </button>
-      <button mat-icon-button matTooltip="Reject" (click)="reject(row.id)" *ngIf="row.status == 'OPENED'">
+      <button
+        mat-icon-button
+        matTooltip="Reject"
+        (click)="reject(row.id)"
+        *ngIf="row.status == 'OPENED' && isCurrentUserAdmin()"
+      >
         <mat-icon>block</mat-icon>
       </button>
       <button mat-icon-button matTooltip="Close" (click)="close(row.id)" *ngIf="row.status == 'OPENED'">

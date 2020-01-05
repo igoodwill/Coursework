@@ -7,6 +7,7 @@ import { CourseworkRequestDialogComponent } from '../dialog/coursework-request/c
 import { RejectCourseworkRequestDialogComponent } from '../dialog/reject-coursework-request/reject-coursework-request.dialog';
 import { CloseCourseworkRequestDialogComponent } from '../dialog/close-coursework-request/close-coursework-request.dialog';
 import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-coursework-requests',
@@ -27,6 +28,7 @@ export class CourseworkRequestsComponent implements OnInit {
 
   constructor(
     private $courseworkRequestService: CourseworkRequestService,
+    private $authService: AuthService,
     private dialog: MatDialog,
     private router: Router
   ) {
@@ -105,5 +107,9 @@ export class CourseworkRequestsComponent implements OnInit {
         this.dataSource.data = result.content;
         this.pageTotal = result.totalElements;
       });
+  }
+
+  public isCurrentUserAdmin(): boolean {
+    return this.$authService.isCurrentUserAdmin();
   }
 }

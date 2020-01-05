@@ -4,6 +4,7 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { CourseworkDialogComponent } from '../dialog/coursework/coursework.dialog';
 import { Coursework } from '../model/coursework';
 import { FileUploadComponent } from '../dialog/file-upload/file-upload.component';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-courseworks',
@@ -24,6 +25,7 @@ export class CourseworksComponent implements OnInit {
 
   constructor(
     private $courseworkService: CourseworkService,
+    private $authService: AuthService,
     private dialog: MatDialog
   ) {
   }
@@ -73,5 +75,9 @@ export class CourseworksComponent implements OnInit {
         this.dataSource.data = result.content;
         this.pageTotal = result.totalElements;
       });
+  }
+
+  public isCurrentUserAdmin(): boolean {
+    return this.$authService.isCurrentUserAdmin();
   }
 }

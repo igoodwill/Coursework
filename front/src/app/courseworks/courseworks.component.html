@@ -9,7 +9,7 @@
   <button mat-icon-button matTooltip="Search" (click)="search()">
     <mat-icon>search</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Create" (click)="create()">
+  <button mat-icon-button matTooltip="Create" (click)="create()" *ngIf="isCurrentUserAdmin()">
     <mat-icon>add</mat-icon>
   </button>
 </mat-card>
