@@ -2,6 +2,10 @@
   <mat-toolbar-row>
     <a routerLink="/courseworks" routerLinkActive="active">Works</a>
     <a routerLink="/coursework-requests" routerLinkActive="active">Requests</a>
+    <span class="spacer"></span>
+    <button mat-icon-button matTooltip="Logout" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 

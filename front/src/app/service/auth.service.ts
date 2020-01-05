@@ -25,6 +25,10 @@ export class AuthService {
     }
   }
 
+  public logout(): void {
+    this.$adalService.logout();
+  }
+
   public isCurrentUserAdmin(): boolean {
     return this.currentUserAdmin;
   }
