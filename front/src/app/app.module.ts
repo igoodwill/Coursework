@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CourseworksComponent } from './courseworks/courseworks.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ApiInterceptor } from './interceptor/api-interceptor';
-import { AuthenticationGuard, MsAdalAngular6Module } from 'microsoft-adal-angular6';
+import { MsAdalAngular6Module } from 'microsoft-adal-angular6';
 import { AuthInterceptor } from './interceptor/auth-interceptor.service';
 import {
   MatButtonModule,
@@ -72,7 +72,6 @@ import { CourseworkComponent } from './coursework/coursework.component';
     MatTooltipModule
   ],
   providers: [
-    AuthenticationGuard,
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
